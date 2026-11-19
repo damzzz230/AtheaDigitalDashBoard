@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(git push)",
+      "Bash(netlify deploy:*)",
+      "Bash(npx netlify deploy:*)",
+      "Bash(npx netlify-cli deploy:*)",
+      "Bash(rm -rf:*)",
+      "PowerShell(git push:*)",
+      "PowerShell(netlify deploy:*)",
+      "PowerShell(npx netlify deploy:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Bash(cat .env*)",
+      "Bash(cat ./.env*)",
+      "Bash(rm -fr:*)",
+      "Bash(rm -r -f:*)",
+      "Bash(rm -f -r:*)",
+      "Bash(ntl deploy:*)",
+      "Bash(git -C * push:*)",
+      "PowerShell(rm -rf:*)",
+      "PowerShell(Remove-Item -Recurse:*)",
+      "PowerShell(ntl deploy:*)"
+    ]
+  }
+}

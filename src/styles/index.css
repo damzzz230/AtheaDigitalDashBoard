@@ -1,0 +1,230 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-text: var(--accent-text);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --color-line: var(--glass-border);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* Fixed teal glows top-left and bottom-left, plus film grain. */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vmax 50vmax at -10% -10%, color-mix(in srgb, var(--glow) 30%, transparent), transparent 60%),
+    radial-gradient(55vmax 45vmax at -12% 112%, color-mix(in srgb, var(--glow) 24%, transparent), transparent 62%),
+    var(--bg);
+}
+.app-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Glass card: translucent fill, blur, 1px gradient border lighter top-left, inner highlight, soft shadow. */
+.glass {
+  position: relative;
+  border-radius: var(--radius);
+  background: linear-gradient(150deg, rgba(34, 78, 70, 0.5), var(--glass) 45%, rgba(14, 34, 31, 0.58));
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 0 0 1px rgba(255, 255, 255, 0.015), var(--shadow);
+  isolation: isolate;
+}
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--glass-border-hi), var(--glass-border) 35%, rgba(120, 235, 215, 0.06) 70%, var(--glass-border));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* "Most popular" variant: thicker glowing border for the top KPI. */
+.glass-featured {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(94, 234, 212, 0.12),
+    0 0 42px -8px rgba(26, 168, 150, 0.6),
+    var(--shadow);
+}
+.glass-featured::before {
+  padding: 2px;
+  background: linear-gradient(135deg, var(--accent-text), var(--accent) 40%, rgba(26, 168, 150, 0.35) 75%, var(--accent));
+}
+
+/* Nested panels never blur: one blurred layer per stack. */
+.inset {
+  border-radius: var(--radius-sm);
+  background: var(--inset);
+  border: 1px solid var(--inset-border);
+}
+
+.overlay-panel {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .overlay-panel {
+    background: var(--glass-solid);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .overlay-panel {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--glass-solid);
+  }
+  .app-bg::after {
+    display: none;
+  }
+}
+
+/* Phones: lighter blur, and overlays go solid so we never stack two blurred layers. */
+@media (max-width: 767px) {
+  .glass {
+    --blur: blur(12px) saturate(130%);
+  }
+  .overlay-panel {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--glass-solid);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+}
+
+.field {
+  width: 100%;
+  border-radius: 10px;
+  background: rgba(3, 12, 11, 0.55);
+  border: 1px solid rgba(120, 235, 215, 0.2);
+  padding: 0.55rem 0.7rem;
+  min-height: 2.5rem;
+}
+.field:focus {
+  border-color: var(--accent-text);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.18);
+}
+.field[aria-invalid="true"] {
+  border-color: var(--bad);
+}
+select.field option {
+  background: #0b1a18;
+}
+input[type="date"].field::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+}
+
+.scroll-x {
+  /* Positioned so absolutely placed descendants (sr-only labels) are clipped here, not by the page. */
+  position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 235, 215, 0.25) transparent;
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+table.data th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+table.data td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid rgba(120, 235, 215, 0.07);
+  vertical-align: top;
+}
+table.data tr:last-child td {
+  border-bottom: 0;
+}
+table.data tbody tr.clickable:hover {
+  background: rgba(94, 234, 212, 0.05);
+  cursor: pointer;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+.pb-safe {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

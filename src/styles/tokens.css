@@ -1,0 +1,35 @@
+/*
+ * Athea Digital brand tokens. The marketing-site repo was not reachable when this was built,
+ * so these are the approximations from the brief. Replace values here only.
+ */
+:root {
+  --bg: #050b0a;
+  --glow: #12a595;
+  --glass: rgba(20, 48, 43, 0.55);
+  --glass-strong: rgba(22, 54, 48, 0.72);
+  /* Opaque stand-in for --glass when blur is unavailable or transparency is reduced. */
+  --glass-solid: #0f2421;
+  --glass-border: rgba(120, 235, 215, 0.16);
+  --glass-border-hi: rgba(170, 255, 238, 0.42);
+  --inset: rgba(255, 255, 255, 0.035);
+  --inset-border: rgba(120, 235, 215, 0.1);
+
+  --accent: #1aa896;
+  --accent-strong: #0f766e;
+  --accent-text: #5eead4;
+
+  --text: #e6eee9;
+  --muted: #9aafa8; /* brief: #8ea39c, lightened to pass AA on the brightest glass */
+
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb8585; /* brief: #f87171, lightened to pass AA */
+
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.75), 0 2px 10px rgba(0, 0, 0, 0.3);
+  --blur: blur(20px) saturate(140%);
+
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
