@@ -9,3 +9,4 @@ playwright-report/
 screenshots/
 coverage/
 *.log
+CLAUDE.local.md
